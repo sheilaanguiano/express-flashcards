@@ -9,6 +9,19 @@ app.use(cookieParser());
 
 app.set('view engine', 'pug');
 
+app.use((req, resp, next) => {
+    console.log("Hello");
+    const err = new Error("Oh noes!");
+    err.status = 500;
+    next();
+});
+
+app.use((req, resp, next) => {
+    console.log("World");
+    next();
+});
+
+
 app.get('/', (req, res) => {
     const name = req.cookies.username;
     if(name){
@@ -45,9 +58,21 @@ app.post('/goodbye', (req, res) => {
     res.redirect('/hello');
   });
 
+//   ------------ ERROR HANDLERs --------
+app.use((req, res, next) => {
+    const  err = new Error('Not Found');
+    err.status = 404;
+    next(err);
+});
+
+app.use((err, req, res, next) => {
+    res.locals.error = err;
+    res.status(err.status);
+    res.render('error');
+});
 
 // ---------  SANDBOX -----------
-
+ 
 
 app.get('/sandbox', (req, res) => {
     res.render('sandbox');
