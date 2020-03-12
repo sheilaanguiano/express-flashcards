@@ -14,13 +14,14 @@ router.get('/:id', (req, res) => {
     const { id } = req.params;
 
     if(!side){
+        // return will stop the execution
         return res.redirect(`/cards/${id}?side=question`)
     }
     const name = req.cookies.username;
     const text = cards[id][side];
     const { hint } = cards[id];
     
-    const templateData = { id, text, name };
+    const templateData = { id, text, name, side };
 
     if( side === 'question'){
         templateData.hint = hint;
@@ -34,7 +35,6 @@ router.get('/:id', (req, res) => {
     res.render('card', templateData);
 });
 
-//cards.legth is the number of cards in the deck
 
 
 

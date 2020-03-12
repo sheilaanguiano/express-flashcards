@@ -5,7 +5,8 @@ const cookieParser= require('cookie-parser');
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false}));
-app.use(cookieParser()); 
+app.use(cookieParser());
+app.use('/static', express.static('public')); 
 
 app.set('view engine', 'pug');
 
@@ -24,6 +25,13 @@ app.use((req, res, next) => {
 
 app.use((err, req, res, next) => {
     res.locals.error = err;
+    const status = err.status || 500;
+    res.status(status);
+    res.render('error');
+  });
+
+app.use((err, req, res, next) => {
+    res.locals.error = err;
     res.status(err.status);
     res.render('error');
 });
@@ -36,6 +44,6 @@ app.get('/sandbox', (req, res) => {
 });
 
 
-app.listen(3000, () => {
-    console.log('The application is running on localhost:3000!')
+app.listen(1337, () => {
+    console.log('The application is running on localhost:1337!')
 });
