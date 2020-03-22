@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser= require('body-parser');
 const cookieParser= require('cookie-parser');
+const port = process.env.PORT || 1337;
 
 const app = express();
 
@@ -44,6 +45,6 @@ app.get('/sandbox', (req, res) => {
 });
 
 
-app.listen(1337, () => {
+app.listen(port, () => {
     console.log('The application is running on localhost:1337!')
 });
